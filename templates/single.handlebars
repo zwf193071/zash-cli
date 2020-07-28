@@ -1,0 +1,282 @@
+<!--
+ * @Author:{{author}}
+ * @Description:
+ * @Date: {{createTime}}
+ * @LastEditTime: {{createTime}}
+ * @LastEditors:{{author}}
+ * @UpdateLogs:
+ -->
+<template>
+    <CommonLayout ref="wrap" title="{{title}}" noFooter :tools="tools">
+        <CommonTable ref="table" :loading="isLoading" :searchText="searchText" :columns="columns" :data="tableData">
+        </CommonTable>
+        {{#if isDrawer}}
+        <CommonDrawer v-model="showDrawer" :title="`${createType === 'create' ? '创建' : '修改'}{{title}}`" :width="450"
+            :submitLoading="submitLoading" @cancel="showDrawer = false" @submit="submitDrawer">
+            <CommonForm ref="form" :labelWidth="120" :form="form" :data="formData"></CommonForm>
+        </CommonDrawer>
+        {{/if}}
+    </CommonLayout>
+</template>
+
+<script>
+import { api, apiCover } from '@/api/index';
+import Storage from '@/utils/Storage';
+import CommonTable from '@/components/Table/Table.vue';
+{{#if isDrawer}}
+import CommonDrawer from '@/components/Drawer.vue';
+import CommonForm from '@/components/Form/Form.vue';
+// eslint-disable-next-line no-unused-vars
+import { Divider } from 'view-design';
+{{/if}}
+
+export default {
+    name: '{{fileName}}',
+    components: {
+        CommonTable,
+        {{#if isDrawer}}
+        CommonDrawer,
+        CommonForm
+        {{/if}}
+    },
+    data () {
+        return {
+            searchText: '',
+            isLoading: false,
+            submitLoading: false,
+            showDrawer: false,
+            createType: 'create',
+            tableData: [],
+            formData: {
+                name: '',
+            },
+            columns: [
+                {
+                    title: '描述',
+                    key: 'description'
+                },
+                {{#if isDrawer}}
+                {
+                    title: '操作',
+                    width: 160,
+                    render: (h, params) => {
+                        let row = params.row;
+                        return (
+                            <div>
+                                <span
+                                    class="operate-btn"
+                                    onClick={e => {
+                                        e.stopPropagation();
+                                        this.modifyEvent(row);
+                                    }}
+                                >
+                                    修改
+                                </span>
+                                <Divider type="vertical" />
+                                <span
+                                    class="operate-btn del-btn"
+                                    onClick={e => {
+                                        e.stopPropagation();
+                                        this.deleteAction(row);
+                                    }}
+                                >
+                                    删除
+                                </span>
+                            </div>
+                        );
+                    }
+                }
+                {{/if}}
+            ]
+        };
+    },
+    computed: {
+        tools() {
+            return [
+                {
+                    key: 'input',
+                    suffix: 'ios-search',
+                    default: this.searchText,
+                    event: this.changeSearchTxt
+                },
+                {
+                    key: 'button',
+                    className: 'refresh-btn',
+                    icon: ' iconfont icon-shuaxin1',
+                    text: '刷新',
+                    loading: this.isLoading,
+                    event: this.refreshData
+                },
+                {
+                    key: 'button',
+                    icon: ' iconfont icon-xinzeng',
+                    text: '创建',
+                    event: this.createEvent,
+                    hide: !this.isAdminRole
+                }
+            ];
+        },
+        form() {
+            return [
+                {
+                    type: 'select',
+                    key: 'name',
+                    label: '测试1：',
+                    options: '',
+                    multiple: true,
+                    hide: false,
+                    onChange: (val) => {
+                        console.log(val)
+                    }
+                },
+            ]
+        }
+    },
+    // 组件加载刷新
+    created () {
+        this.isAdminRole = Storage.get('isAdminRole');
+        this.initData();
+    },
+    methods: {
+        changeSearchTxt(value) {
+            this.searchText = value;
+        },
+        async initData(flag) {
+            this.isLoading = true;
+            await this.getList(flag);
+            this.isLoading = false;
+        },
+        getList(flag) {
+            const tips = flag ? "{{title}}获取" : "";
+            return apiCover({
+                url: {{getUrl}},
+                tips
+            })
+                .then(res => {
+                    if (res.type === 'success') {
+                        this.tableData = res.data;
+                    } else {
+                        this.tableData = [];
+                        throw res;
+                    }
+                })
+                .catch(() => {
+                    this.tableData = [];
+                });
+        },
+        /**
+        * 刷新数据，需将表格重置到第一页
+        */
+        refreshData() {
+            this.$refs.table.changePage(1);
+            this.initData(true);
+        },
+        createEvent() {
+            this.showDrawer = true;
+            this.formData = {
+                name: ''
+            };
+            this.createType = 'create';
+            this.$refs.form.resetFields();
+        },
+        modifyEvent() {
+            this.showDrawer = true;
+            this.createType = 'modify';
+            this.formData = {
+                id: param.id,
+                name: param.name
+            }
+        },
+        submitDrawer () {
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    let formData = this.formData;
+                    let data = {
+                        name: formData.name
+                    }
+                    if (this.createType === 'create') {
+                        this.createAction(data);
+                    } else {
+                        data.id = formData.id;
+                        this.editAction(data);
+                    }
+                }
+            });
+        },
+        createAction (data) {
+            this.submitLoading = true;
+            apiCover({
+                url: {{addUrl}},
+                data,
+                tips: `{{title}}创建`
+            })
+                .then(res => {
+                    this.submitLoading = false;
+                    if (res.type === 'success') {
+                        this.showDrawer = false;
+                        this.getList();
+                    } else {
+                        throw res;
+                    }
+                })
+                .catch(() => {
+                    this.submitLoading = false;
+                });
+        },
+        {{#if isDrawer}}
+        editAction (data) {
+            this.submitLoading = true;
+            apiCover({
+                url: {{ editUrl }},
+                data,
+                dynamicRouterParams: {
+                    id: data.id
+                },
+                tips: `{{title}}修改`
+            })
+                .then(res => {
+                    this.submitLoading = false;
+                    if (res.type === 'success') {
+                        this.showDrawer = false;
+                        this.getList();
+                    } else {
+                        throw res;
+                    }
+                })
+                .catch(() => {
+                    this.submitLoading = false;
+                });
+        },
+        deleteAction (param) {
+            this.$Modal.confirm({
+                title: '删除提醒',
+                content: `是否删除该{{title}}？`,
+                closable: true,
+                onOk: () => {
+                    this.submitLoading = true;
+                    apiCover({
+                        url: {{ deleteUrl }},
+                        dynamicRouterParams: {
+                            id: param.id
+                        },
+                        tips: `{{title}}删除`
+                    })
+                        .then(res => {
+                            this.submitLoading = false;
+                            if (res.type === 'success') {
+                                this.showDrawer = false;
+                                this.refreshData();
+                            } else {
+                                throw res;
+                            }
+                        })
+                        .catch(() => {
+                            this.submitLoading = false;
+                        });
+                }
+            });
+        }
+        {{/if}}
+    }
+};
+</script>

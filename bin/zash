@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+
+const chalk = require('chalk')
+const program = require('commander');
+
+program
+    .command('create <new-file-name>')
+    .description('create a new file powered by zash-cli')
+    .action((name, cmd) => {
+        const options = cleanArgs(cmd);
+        require('../lib/create')(name, options);
+    })
+
+program.on('--help', () => {
+    console.log();
+    console.log(`  Run ${chalk.cyan(`zash <command> --help`)} for detailed usage of given command.`);
+    console.log();
+})
+
+program.commands.forEach(c => c.on('--help', () => console.log()))
+
+program.parse(process.argv)
+
+if (!process.argv.slice(2).length) {
+    program.outputHelp()
+}
+
+function camelize(str) {
+    return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
+}
+function cleanArgs(cmd) {
+    const args = {}
+    cmd.options.forEach(o => {
+        const key = camelize(o.long.replace(/^--/, ''))
+        if (typeof cmd[key] !== 'function' && typeof cmd[key] !== 'undefined') {
+            args[key] = cmd[key]
+        }
+    })
+    return args
+}

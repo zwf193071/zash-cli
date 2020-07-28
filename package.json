@@ -1,0 +1,53 @@
+{
+  "name": "zash-cli",
+  "version": "1.0.0",
+  "description": "A simple CLI for generating the pages",
+  "bin": {
+    "zash": "bin/zash"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zwf193071/zash-cli.git"
+  },
+  "keywords": [
+    "zash",
+    "cli"
+  ],
+  "author": "zwf193071",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src --out-dir lib"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.9.2",
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "fs-extra": "^7.0.1",
+    "handlebars": "^4.0.11",
+    "inquirer": "^3.0.6",
+    "ora": "^1.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "~6.5.0",
+    "babel-runtime": "^6.9.2"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react",
+      "stage-0"
+    ],
+    "plugins": [
+      "add-module-exports",
+      "transform-runtime"
+    ]
+  },
+  "engines": {
+    "node": ">=8.9"
+  }
+}
