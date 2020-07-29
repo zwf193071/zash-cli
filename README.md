@@ -77,11 +77,11 @@ $ zash create Test
 
 ```
 
-![image](https://github.com/zwf193071/zash-cli/images/1.png)
+![image](https://github.com/zwf193071/zash-cli/blob/master/images/1.png)
 
 在你想注入路由的文件内，写上`//${h}`和`//${f}`，当执行命令成功后，会在该路由文件，根据该注释语句，自动导入`Test`的路由
-![image](https://github.com/zwf193071/zash-cli/images/2.png)
-![image](https://github.com/zwf193071/zash-cli/images/3.png)
+![image](https://github.com/zwf193071/zash-cli/blob/master/images/2.png)
+![image](https://github.com/zwf193071/zash-cli/blob/master/images/3.png)
 
 ## Thanks to
 * [vue-cli](https://github.com/vuejs/vue-cli)
