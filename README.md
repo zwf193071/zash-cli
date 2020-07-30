@@ -40,14 +40,16 @@ npm link
 
 在你想生成页面的项目内的根目录下，新建pageConf.js文件，代码如下所示：
 ```
-
 /**
- * 单页自动生成文件的相关配置信息
+ * 自动生成文件的相关配置信息
  * @param parentFolderPath 父文件地址，相对于根路径
- * @param routerPath 路由文件路径
+ * @param routerPath 路由文件地址
+ * @param breadPath 面包屑导航地址
+ * @param parentName 父菜单名字
+ * @param leftMenuPath 左侧菜单文件路径
  * @param author 当前文件的创建者
  * @param title 文件标题，与增删改的提示信息相关
- * @isDrawer 是否有抽屉
+ * @isDrawer 是否有抽屉，默认为true，表示增删改功能皆有
  * @getUrl 列表请求接口地址
  * @addUrl 新增接口地址
  * @editUrl 编辑接口地址
@@ -58,6 +60,9 @@ npm link
 exports.conf = {
     parentFolderPath: 'src/views/Content/Monitor',
     routerPath: 'src/router/routes.js',
+    breadPath: 'src/components/BreadLink/config.js',
+    parentName: '运维监控',
+    leftMenuPath: 'src/views/Home/LeftMenu/LeftMenu.config.js',
     author: 'zhuwenfang',
     title: 'test文件',
     isDrawer: true,
@@ -79,10 +84,12 @@ $ zash create Test
 
 ![image](https://github.com/zwf193071/zash-cli/blob/master/images/1.png)
 
-在你想注入路由的文件内，写上`//${h}`和`//${f}`，当执行命令成功后，会在该路由文件，根据该注释语句，自动导入`Test`的路由
+在你想注入路由的文件内，写上`// $h`和`// $f`，当执行命令成功后，会在该路由文件，根据该注释语句占位符，自动导入`Test`的路由
 
 ![image](https://github.com/zwf193071/zash-cli/blob/master/images/2.png)
 ![image](https://github.com/zwf193071/zash-cli/blob/master/images/3.png)
+
+左侧菜单和面包屑导航亦是根据上述原理自动注入生成
 
 ## Thanks to
 * [vue-cli](https://github.com/vuejs/vue-cli)
