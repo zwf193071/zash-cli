@@ -28,5 +28,7 @@ exports.conf = {
     getUrl: '',
     addUrl: '',
     editUrl: '',
-    deleteUrl: ''
+    deleteUrl: '',
+    //下面针对是多页面的配置
+    childrenNames: ['child1', 'child2', 'child3']
 };

@@ -7,7 +7,7 @@
  * @UpdateLogs:
  -->
 <template>
-    <CommonLayout ref="wrap" title="{{title}}" noFooter :tools="tools">
+    <CommonLayout title="{{title}}" noFooter :tools="tools">
         <CommonTable ref="table" :loading="isLoading" :searchText="searchText" :columns="showColumns" :data="tableData">
         </CommonTable>
         {{#if isDrawer}}
