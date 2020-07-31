@@ -31,13 +31,12 @@ export default {
             isAdminRole: false,
             searchText: '',
             isLoading: false,
-            tabs: {{childrenNames}},
-            // tabIndex: 0,
+            tabs: [{{#each childrenNames}}{{#if @index}}, '{{this}}'{{else}}'{{this}}'{{/if}}{{/each}}],
             tabIndex: parseInt(Storage.get('{{fileName}}TabIndex')) || 0,
             component: null
         };
     },
-    created() {
+    created () {
         this.isAdminRole = Boolean(Storage.get('isAdminRole'));
     },
     computed: {
@@ -69,7 +68,7 @@ export default {
     },
     watch: {
         tabIndex: {
-            handler(now) {
+            handler (now) {
                 switch (now) {
                     {{#each childrenValues}}
                     case {{@index}}:
@@ -95,7 +94,7 @@ export default {
         /**
          * 调用子组件的刷新事件
          */
-        refreshData() {
+        refreshData () {
             if (typeof this.$refs.component.refreshData === 'function') {
                 this.$refs.component.refreshData(true);
             }
@@ -103,7 +102,7 @@ export default {
         /**
          * 调用子组件的刷新事件
          */
-        createEvent() {
+        createEvent () {
             if (typeof this.$refs.component.createEvent === 'function') {
                 this.$refs.component.createEvent();
             }
