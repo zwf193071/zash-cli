@@ -1,6 +1,6 @@
 
 /**
- * 自动生成文件的相关配置信息
+ * 单页自动生成文件的相关配置信息
  * @param parentFolderPath 父文件地址，相对于根路径
  * @param routerPath 路由文件地址
  * @param breadPath 面包屑导航地址
@@ -29,6 +29,7 @@ exports.conf = {
     addUrl: '',
     editUrl: '',
     deleteUrl: '',
-    //下面针对是多页面的配置
-    childrenNames: ['child1', 'child2', 'child3']
+    // 下面针对是多页面的配置
+    childrenValues: ['child1', 'child2', 'child3'],
+    childrenNames: ['子页面1', '子页面2', '子页面3']
 };
