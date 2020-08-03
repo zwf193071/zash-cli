@@ -7,7 +7,7 @@
  * @UpdateLogs:
  -->
 <template>
-    <div class="IkePolicy-menage">
+    <div class="child-menage">
         <CommonTable ref="table" :loading="isLoading" :searchText="searchText" :columns="showColumns" :data="tableData">
         </CommonTable>
         <CommonDrawer v-model="showDrawer" :title="`${createType === 'create' ? '创建' : '修改'}{{childTitle}}`" :width="550"
@@ -250,6 +250,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.child-menage {
+    height: 100%;
+}
 /deep/ .drawer-body {
     padding-top: 50px;
     padding-right: 37px;
