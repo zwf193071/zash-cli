@@ -102,7 +102,8 @@ $ zash create Test
 ## Thanks to
 * [vue-cli](https://github.com/vuejs/vue-cli)
 
-
+## License
+This repo is released under the [MIT](https://opensource.org/licenses/MIT).
 
 
 
