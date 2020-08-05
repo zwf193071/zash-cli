@@ -1,6 +1,6 @@
 {
   "name": "zash-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A simple CLI for generating the pages",
   "bin": {
     "zash": "bin/zash"
@@ -11,7 +11,9 @@
   },
   "keywords": [
     "zash",
-    "cli"
+    "cli",
+    "vue",
+    "node"
   ],
   "author": "zwf193071",
   "license": "MIT",
