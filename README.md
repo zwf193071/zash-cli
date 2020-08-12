@@ -8,6 +8,11 @@ A simple CLI for generating pages into your projects
 > E-mail: 997131679@qq.com
 
 > date: 2020/07/29
+* * *
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![npm version](1.0.5)](https://www.npmjs.com/package/zash-cli)
+[![npm downloads](120)](https://www.npmjs.com/package/zash-cli)
+* * *
 ## Preface
 这些页面都是相似的，为何要反复的拷贝来拷贝去？好不容易拷贝完，还得为新增的页面添加路由、左侧菜单和面包屑导航的功能，555...不甘心将时间浪费在这些细枝末节上，于是擦干眼泪，撸起袖子做了一套自动化生成页面的工具，希望能给后面的读者一些启示。
 
